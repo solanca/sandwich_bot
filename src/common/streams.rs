@@ -2,6 +2,7 @@ use ethers::{
     providers::{Middleware, Provider, Ws},
     types::*,
 };
+use log::info;
 use std::sync::Arc;
 use tokio::sync::broadcast::Sender;
 use tokio_stream::StreamExt;
@@ -53,8 +54,11 @@ pub async fn stream_new_blocks(provider: Arc<Provider<Ws>>, event_sender: Sender
     });
 
     while let Some(block) = stream.next().await {
+        println!("block=={:?}",block);
         match event_sender.send(Event::Block(block)) {
-            Ok(_) => {}
+            Ok(_) => {
+                
+            }
             Err(_) => {}
         }
     }
